@@ -226,7 +226,11 @@ export default class Home extends React.Component {
 				<div className="home-option2-left" />
 				<div className="home-option2-right" />
 				<div className="home-option2-title">
-					<div>
+					<Image
+						preview={false}
+						src={require("../../images/icon-2.png").default}
+					/>
+					<div className="home-option2-title-box">
 						<div className="home-option2-title-one">同步辅导</div>
 						<div className="home-option2-title-two">
 							小学语文数学英语学习辅导神器，专为小学生设计
@@ -270,7 +274,11 @@ export default class Home extends React.Component {
 		return (
 			<div className="home-option2">
 				<div className="home-option2-title">
-					<div>
+					<Image
+						preview={false}
+						src={require("../../images/icon-2.png").default}
+					/>
+					<div className="home-option2-title-box">
 						<div className="home-option2-title-one">课外拓展</div>
 						<div className="home-option2-title-two">更高效提升孩子知识体系</div>
 					</div>
@@ -309,7 +317,11 @@ export default class Home extends React.Component {
 		return (
 			<div className="home-option2">
 				<div className="home-option2-title">
-					<div>
+					<Image
+						preview={false}
+						src={require("../../images/icon-2.png").default}
+					/>
+					<div className="home-option2-title-box">
 						<div className="home-option2-title-one">家长专区</div>
 						<div className="home-option2-title-two">
 							完整记录学生学习轨迹，智能学情分析
