@@ -1,173 +1,79 @@
-import React, { Component } from "react";
+import React from "react";
+import { Layout, Button, Menu, Image } from "antd";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 import { connect } from "react-redux";
-import Proptypes from "prop-types";
-import { withRouter, NavLink } from "react-router-dom";
-import router from "./../../router/index";
-import {
-	Popover,
-	Menu,
-	Tabs,
-	Image,
-	Divider,
-	Button,
-	Modal,
-	Drawer,
-} from "antd";
-import {
-	UnorderedListOutlined,
-	CustomerServiceFilled,
-} from "@ant-design/icons";
 import "./index.less";
-const { TabPane } = Tabs;
-class Header extends Component {
-	static propTypes = {
-		getData: Proptypes.func,
-	};
-	static defaultProps = {
-		getData: () => {},
-	};
+const { Header } = Layout;
+class HeaderCom extends React.Component {
+	static propTypes = {};
+	static defaultProps = {};
 	constructor(props) {
 		super(props);
 		this.state = {
-			drawerVisible: false,
-			modalVisible: false,
-			data: [],
+			headerHide: false,
 		};
 	}
+	onLoginAction = () => {
+		console.log(this.props);
+		this.props.history.push("/admin");
+	};
 	componentDidMount() {
-		this.initData();
+		this.timer = setTimeout(() => {
+			this.setState({
+				headerHide: true,
+			});
+		}, 5000);
 	}
-	initData = async () => {
-		const { getData } = this.props;
-		const data = await getData();
-		router.map((item) => {
-			if (item.name === "home") {
-				item.title = data.indexName;
-			} else if (item.name === "info") {
-				item.title = data.info;
-			} else if (item.name === "product") {
-				item.title = data.product;
-			} else if (item.name === "introduction") {
-				item.title = data.introduction;
-			} else if (item.name === "news") {
-				item.title = data.news;
-			}
-			return null;
-		});
-		this.setState({
-			data: router,
-		});
-	};
-	onClose = () => {
-		this.setState({
-			drawerVisible: false,
-		});
-	};
-	onMenuClick = () => {
-		this.setState({
-			drawerVisible: true,
-		});
-	};
-	_renderRouter = (item) => {
-		const { match = {} } = this.props;
-		const { path = "" } = match;
-		return (
-			<div className="header-router-item" key={item.path}>
-				<NavLink
-					exact={item.path === "/"}
-					key={item.path}
-					to={item.path}
-					className={`header-item ${path === item.path ? "active" : ""}`}
-				>
-					{item.title}
-				</NavLink>
-			</div>
-		);
-	};
-	_renderModuleInfo = () => {
-		this.setState({
-			modalVisible: true,
-		});
-	};
-	onCancelModule = () => {
-		this.setState({
-			modalVisible: false,
-		});
-	};
-
+	componentWillUnmount() {
+		this.timer && clearTimeout(this.timer);
+	}
 	render() {
-		const { drawerVisible, modalVisible, data } = this.state;
-		const { match = {} } = this.props;
-		const { path = "" } = match;
-		const activePathItem = router.filter((item) => item.path === path);
-		let headerTitle = "锦东电器® 智能厨房";
-		if (path !== "/" && activePathItem.length) {
-			headerTitle = activePathItem[0].title;
-		}
+		const { headerHide } = this.state;
+		const { isAffix } = this.props;
 		return (
-			<div className="header">
-				<div className="header-mune" onClick={this.onMenuClick}>
-					<UnorderedListOutlined />
-				</div>
-				<Drawer
-					title={
-						<div className="drawer_title">
-							<img
-								className="drawer_title_logo"
-								src={require("./../../assets/logo.png").default}
-							/>
-							锦东电器
+			<Header
+				className={`isHasBack header-show-in ${
+					headerHide ? "header-show-hide" : ""
+				}`}
+			>
+				<div className="header-tips">你好！欢迎进入，小学生网校</div>
+				<div className="components-layout-top">
+					<div type="link" className="logo">
+						<Image
+							className="logoImg"
+							preview={false}
+							src={require("./../../images/logo_03.png").default}
+						/>
+						<div className="logoRight">
+							<h2>小学生网校</h2>
+							<div className="logoRightText">服务打动人心，超越用户期待</div>
 						</div>
-					}
-					placement="left"
-					closable={false}
-					onClose={this.onClose}
-					visible={drawerVisible}
-					key="left"
-					width={200}
-				>
-					<div className="header-router">
-						{data.map((item, index) => {
-							if (!item.notRender) {
-								if (item.path) {
-									return this._renderRouter(item);
-								}
-							}
-						})}
 					</div>
-				</Drawer>
-				<div>{headerTitle}</div>
-				<div className="header-coKiing" onClick={this._renderModuleInfo}>
-					<CustomerServiceFilled className="header-user-kefu" />
+					<div className="logoMenu">
+						<Menu
+							className="notHasBack"
+							theme="light"
+							mode="horizontal"
+							defaultSelectedKeys={["2"]}
+						>
+							<Menu.Item key="1">首页</Menu.Item>
+							<Menu.Item key="2">申请合作</Menu.Item>
+							<Menu.Item key="3">学习中心</Menu.Item>
+						</Menu>
+					</div>
 				</div>
-				<Modal
-					width={300}
-					title={<div style={{ fontSize: 20, padding: 10 }}>服务热线</div>}
-					maskClosable={true}
-					visible={modalVisible}
-					footer={null}
-					closable={false}
-					onCancel={this.onCancelModule}
-				>
-					<div style={{ fontSize: 14, paddingLeft: 20 }}>
-						<div>客服电话</div>
-						<div>0769-22225669</div>
-						<div>消费维权热线</div>
-						<div>0769-22225669</div>
-						<div>举报邮箱</div>
-						<h3>jindong2020@126.com</h3>
-					</div>
-				</Modal>
-			</div>
+			</Header>
 		);
 	}
 }
-const mapDispatch = (dispatch) => {
+
+const mapState = (state = {}) => {
 	return {
-		getData: dispatch.headerStore.getData,
+		isAffix: state.Common.isAffix,
 	};
 };
-const mapState = (state) => {
+const mapDispatch = (dispatch) => {
 	return {};
 };
-export default connect(mapState, mapDispatch)(withRouter(Header));
+export default connect(mapState, mapDispatch)(withRouter(HeaderCom));

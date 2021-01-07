@@ -26,11 +26,11 @@ const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
-const px2rem = require("postcss-px2rem");
+
 const postcssNormalize = require("postcss-normalize");
 
 const appPackageJson = require(paths.appPackageJson);
-
+const px2rem = require("postcss-px2rem");
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
 
@@ -131,8 +131,8 @@ module.exports = function (webpackEnv) {
 						// Adds PostCSS Normalize as the reset css with default options,
 						// so that it honors browserslist config in package.json
 						// which in turn let's users customize the target behavior as per their needs.
+						px2rem({ remUnit: 37.5 }),
 						postcssNormalize(),
-						px2rem({ remUnit: 75 }),
 					],
 					sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
 				},
@@ -145,7 +145,7 @@ module.exports = function (webpackEnv) {
 							lessOptions: {
 								javascriptEnabled: true,
 								modifyVars: {
-									"primary-color": "#00ADBB",
+									"primary-color": "#ff9900",
 								},
 							},
 					  }

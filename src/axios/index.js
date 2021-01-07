@@ -1,7 +1,7 @@
 import Axios from "axios";
 import _forEach from "lodash.foreach";
 import _isEmpty from "lodash.isempty";
-import CONFIOG from "@/config/config";
+import CONFIOG from "@/config-url";
 import { message } from "antd";
 let requestingCount = 0;
 class AXIOS {

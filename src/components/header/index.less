@@ -1,35 +1,94 @@
-.header {
-	height: 80px;
+.isHasBack {
+	background-color: #fff !important;
+	border-bottom: 1px solid #eeeeee;
+}
+.notHasBack {
+	background-color: transparent !important;
+}
+.header-show-in {
+	position: relative;
+	transform: translateY(0);
+	transition: all 2s;
+}
+.header-tips {
+	width: 100%;
+	height: 0.5rem;
+	padding-left: 5rem;
+	background-color: #000;
+	color: #fff;
+	font-size: 0.25rem;
+	line-height: 0.5rem;
+}
+.header-show-hide {
+	transform: translateY(-0.5rem);
+}
+
+.components-layout-top {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	padding: 0 40px;
-	font-size: 28px;
-	font-weight: 600;
-	position: relative;
-	z-index: 999;
-	.header-mune {
-		padding-left: 20px;
+	padding: 0 1.5rem;
+	margin: 0 auto;
+	font-size: 0.5rem;
+	.logo {
+		width: 145px;
+		height: 40px;
+		line-height: 0.4rem;
+		display: flex;
+		align-items: center;
+		border-radius: 4px;
+		color: #fff;
+		.logoImg {
+			width: 30px;
+			margin-right: 4px;
+		}
+		.logoRight {
+			color: black;
+			font-size: 0.2rem;
+			vertical-align: middle;
+			h2 {
+				font-weight: 600;
+				margin-bottom: 1px;
+			}
+			.logoRightText {
+				color: #666666;
+				font-size: 0.2rem;
+				line-height: 0.3rem;
+			}
+		}
+	}
+
+	.logoMenu {
+		flex: 1;
+		font-weight: 500;
+		height: 1.5rem !important;
+		display: flex;
+		justify-content: flex-end;
+	}
+	.topLogin {
+		display: flex;
+		align-items: center;
+		.topLoginUser {
+			width: 0.7rem;
+			margin-top: -5px;
+		}
+		.topLoginIn {
+			font-size: 0.35rem !important;
+		}
 	}
 }
 
-.drawer_title {
-	font-size: 34px;
-	padding: 40px 15px;
-	.drawer_title_logo {
-		width: 50px;
-		margin-right: 10px;
-		vertical-align: sub;
+.ant-layout-header {
+	height: 2rem !important;
+	padding: 0 !important;
+	.ant-menu {
+		margin-top: -0.35rem;
+	}
+	.ant-menu-item {
+		font-size: 0.4rem;
+		line-height: 1.1rem;
+		margin: 0 0.6rem !important;
 	}
 }
-
-.header-router {
-	font-size: 26px;
-	.header-router-item {
-		padding: 15px;
-		border-bottom: 1px solid #cccccc;
-	}
-	.active {
-		color: #00adbb;
-	}
+.ant-menu {
+	border-bottom: none !important;
 }

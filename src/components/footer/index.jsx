@@ -1,114 +1,36 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Proptypes from "prop-types";
-import { Button, Image, Modal } from "antd";
-import { withRouter } from "react-router";
-import { WechatOutlined } from "@ant-design/icons";
+import React from "react";
+import { Layout, Divider } from "antd";
 import "./index.less";
-class Footer extends Component {
-	static propTypes = {
-		getData: Proptypes.func,
-	};
-	static defaultProps = {
-		getData: () => {},
-	};
-	constructor(props) {
-		super(props);
-		this.state = {
-			list: [],
-			modalVisible: false,
-		};
-	}
-	componentDidMount() {
-		this.initData();
-	}
-	initData = async () => {
-		const { getData } = this.props;
-		const data = await getData();
-		this.setState({
-			list: data.list,
-		});
-	};
-	onWeiChat = () => {
-		this.setState({
-			modalVisible: true,
-		});
-	};
-	onCancelModule = () => {
-		this.setState({
-			modalVisible: false,
-		});
-	};
+const { Footer } = Layout;
+export default class FooterCom extends React.Component {
 	render() {
-		const { list, modalVisible } = this.state;
 		return (
-			<div className="footer">
-				<div className="footer-flex">
-					{list.map((item, index) => {
-						return (
-							<div key={`item-${index}`} className="footer-flex-item">
-								<h3>{item.title}</h3>
-								{item.arr &&
-									item.arr.map((value, ind) => {
-										return (
-											<div key={`value-${ind}`}>
-												<Button
-													type="link"
-													size="small"
-													onClick={() => {
-														this.props.history.push(value.url);
-													}}
-													className="footer-flex-item-list"
-												>
-													{value.name}
-												</Button>
-											</div>
-										);
-									})}
-							</div>
-						);
-					})}
+			<Footer
+				style={{
+					textAlign: "center",
+					color: "#666",
+					fontSize: "0.2rem",
+					lineHeight: "0.4rem",
+					backgroundColor: "rgba(0,0,0,0.8)",
+					padding: "0.3rem 0",
+				}}
+			>
+				<div>
+					关于我们
+					<Divider className="footer-diveider" type="vertical" />
+					加入我们
+					<Divider className="footer-diveider" type="vertical" />
+					用户隐私协议
+					<Divider className="footer-diveider" type="vertical" />
+					客服联系电话：<span style={{ color: "#ffffff" }}>15972847855</span>
+					（上班时间：周一至周日9:00-21:00）
 				</div>
-				<div key="item-kefu" className="footer-flex-kefu">
-					<h3>客服电话 : 400-9151812</h3>
-					<h3>消费维权热线 : 0769-22225669</h3>
-					<h3>举报邮箱 : jindong2020@126.com</h3>
-					<h3>公司地址 : 广东省东莞市松山湖中科创新广场E座804</h3>
-					<h3 onClick={this.onWeiChat}>
-						扫码进入锦东商城 <WechatOutlined className="footer-wchat" />
-					</h3>
+				<div>
+					联系我们：<span style={{ color: "#ffffff" }}>15972847855</span>
+					（版权及内容合作）
 				</div>
-				<div className="footer-desc">
-					<div>© 2020 jddianqi.cn 广东锦东电器科技有限公司 </div>
-					<div>粤ICP备2020118823号 粤公网安备 440300000000号</div>
-				</div>
-				<Modal
-					width={300}
-					title={<div style={{ fontSize: 20, padding: 10 }}>微信公众号</div>}
-					maskClosable={true}
-					visible={modalVisible}
-					footer={null}
-					closable={false}
-					onCancel={this.onCancelModule}
-				>
-					<Image
-						width={"100px"}
-						src={`${
-							require("./../../assets/gongzhonghao.jpg").default
-						}?${Date.now()}`}
-					/>
-				</Modal>
-			</div>
+				<div>版权XXXXXXXX Copyright©武汉梦幻x遐游科技有限公司</div>
+			</Footer>
 		);
 	}
 }
-
-const mapDispatch = (dispatch) => {
-	return {
-		getData: dispatch.footerStore.getData,
-	};
-};
-const mapState = (state) => {
-	return {};
-};
-export default connect(mapState, mapDispatch)(withRouter(Footer));

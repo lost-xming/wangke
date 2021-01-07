@@ -2,11 +2,11 @@ const express = require("express");
 const app = express();
 const path = require("path");
 
-app.use(express.static("/jinDongCode/jinDong-m/build/"));
+app.use(express.static("/jinDongCode/jinDong-admin/build/"));
 app.get("*", function (req, res) {
 	res.sendFile(path.resolve(__dirname, "./../build/index.html"));
 });
-const server = app.listen(8084, function () {
+const server = app.listen(8087, function () {
 	const host = server.address().address;
 	const port = server.address().port;
 
