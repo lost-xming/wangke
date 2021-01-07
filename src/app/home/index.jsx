@@ -207,7 +207,9 @@ export default class Home extends React.Component {
 							<div
 								key={`tabs-${index}`}
 								onClick={() => this.onTabClickAction(index)}
-								className="option-1-tabs-item"
+								className={`option-1-tabs-item ${
+									tabsIndex === index ? "option-1-tabs-item-active" : ""
+								} `}
 							>
 								<Image preview={false} src={item.src} />
 								<div className="option-1-tabs-item-text">{item.text}</div>
@@ -221,6 +223,8 @@ export default class Home extends React.Component {
 	_renderOption2() {
 		return (
 			<div className="home-option2">
+				<div className="home-option2-left" />
+				<div className="home-option2-right" />
 				<div className="home-option2-title">
 					<div>
 						<div className="home-option2-title-one">同步辅导</div>
