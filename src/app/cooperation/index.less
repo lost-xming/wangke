@@ -1,0 +1,137 @@
+.cooperation-content {
+	.cooperation-img-box {
+		position: relative;
+		.cooperation-img-text {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			top: 0;
+			left: 0;
+			.img-text-title {
+				color: #ffffff;
+				font-size: 1.3rem;
+				line-height: 1.5rem;
+				margin-bottom: 0.4rem;
+				display: flex;
+				align-items: center;
+				@media screen and (max-width: 1360px) {
+					font-size: 1rem;
+					line-height: 1.2rem;
+				}
+				@media screen and (max-width: 900px) {
+					font-size: 0.7rem;
+					line-height: 0.9rem;
+				}
+				@media screen and (max-width: 630px) {
+					font-size: 0.5rem;
+					line-height: 0.7rem;
+				}
+			}
+			.img-text-title::before {
+				content: "";
+				display: block;
+				width: 1.8rem;
+				height: 0.06rem;
+				background: linear-gradient(
+					to right,
+					rgba(50, 50, 50, 0.7) 0%,
+					rgba(255, 255, 255, 0.7) 100%
+				);
+			}
+			.img-text-title::after {
+				content: "";
+				display: block;
+				width: 1.8rem;
+				height: 0.06rem;
+				background: linear-gradient(
+					to right,
+					rgba(255, 255, 255, 0.7) 0%,
+					rgba(50, 50, 50, 0.7) 100%
+				);
+			}
+			.img-text-desc {
+				text-align: center;
+				.img-text-desc-text {
+					padding: 0.05rem 0.2rem;
+					color: #ffffff;
+					font-size: 0.4rem;
+					line-height: 0.5rem;
+					border: 2px solid #ffffff;
+					border-radius: 0.4rem;
+					@media screen and (max-width: 1360px) {
+						font-size: 0.3rem;
+						line-height: 0.4rem;
+						border-radius: 0.3rem;
+					}
+					@media screen and (max-width: 900px) {
+						font-size: 0.25rem;
+						line-height: 0.36rem;
+						border-radius: 0.25rem;
+					}
+					@media screen and (max-width: 600px) {
+						font-size: 0.2rem;
+						line-height: 0.3rem;
+						border-radius: 0.2rem;
+					}
+				}
+			}
+		}
+	}
+	.cooperation-bottom {
+		padding-top: 1rem;
+		text-align: center;
+		h3 {
+			font-size: 0.5rem;
+			@media screen and (max-width: 1360px) {
+				font-size: 0.4rem;
+			}
+			@media screen and (max-width: 900px) {
+				font-size: 0.35rem;
+			}
+			@media screen and (max-width: 630px) {
+				font-size: 0.3rem;
+			}
+		}
+		.cooperation-bottom-box {
+			display: flex;
+			justify-content: center;
+
+			.cooperation-item {
+				padding: 1rem 0 1rem;
+				margin-right: 2.5rem;
+				@media screen and (max-width: 1360px) {
+					margin-right: 2rem;
+				}
+				@media screen and (max-width: 900px) {
+					margin-right: 1.5rem;
+				}
+				@media screen and (max-width: 600px) {
+					margin-right: 1rem;
+				}
+				&:nth-last-child(1) {
+					margin-right: 0;
+				}
+				.icon-box {
+					width: 2rem;
+					height: 2rem;
+					color: #ff9900;
+					text-align: center;
+					line-height: 2rem;
+					font-size: 1rem;
+					border-radius: 1rem;
+					box-shadow: 0 0 10px rgba(150, 150, 150, 0.7);
+					margin-bottom: 0.5rem;
+					.icon-box-img {
+						width: 50%;
+					}
+				}
+				.cooperation-item-text {
+					text-align: center;
+				}
+			}
+		}
+	}
+}

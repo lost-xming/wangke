@@ -3,11 +3,17 @@ import { Layout, Button, Menu, Image } from "antd";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { appRouters } from "./../../router/router";
 import "./index.less";
 const { Header } = Layout;
 class HeaderCom extends React.Component {
-	static propTypes = {};
-	static defaultProps = {};
+	static propTypes = {
+		activeIndex: PropTypes.number,
+	};
+	static defaultProps = {
+		activeIndex: 0,
+	};
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -15,13 +21,15 @@ class HeaderCom extends React.Component {
 		};
 	}
 	onLoginAction = () => {
-		console.log(this.props);
 		this.props.history.push("/admin");
 	};
 	componentDidMount() {
+		this.setState({
+			headerHide: true,
+		});
 		this.timer = setTimeout(() => {
 			this.setState({
-				headerHide: true,
+				headerHide: false,
 			});
 		}, 5000);
 	}
@@ -30,11 +38,11 @@ class HeaderCom extends React.Component {
 	}
 	render() {
 		const { headerHide } = this.state;
-		const { isAffix } = this.props;
+		const { activeIndex } = this.props;
 		return (
 			<Header
 				className={`isHasBack header-show-in ${
-					headerHide ? "header-show-hide" : ""
+					headerHide ? "" : "header-show-hide"
 				}`}
 			>
 				<div className="header-tips">你好！欢迎进入，小学生网校</div>
@@ -55,11 +63,15 @@ class HeaderCom extends React.Component {
 							className="notHasBack"
 							theme="light"
 							mode="horizontal"
-							defaultSelectedKeys={["2"]}
+							selectedKeys={[String(activeIndex)]}
 						>
-							<Menu.Item key="1">首页</Menu.Item>
-							<Menu.Item key="2">申请合作</Menu.Item>
-							<Menu.Item key="3">学习中心</Menu.Item>
+							{appRouters.map((item, index) => {
+								return (
+									<Menu.Item key={index}>
+										<Link to={item.path}>{item.title}</Link>
+									</Menu.Item>
+								);
+							})}
 						</Menu>
 					</div>
 				</div>
@@ -70,7 +82,7 @@ class HeaderCom extends React.Component {
 
 const mapState = (state = {}) => {
 	return {
-		isAffix: state.Common.isAffix,
+		activeIndex: state.Common.activeIndex,
 	};
 };
 const mapDispatch = (dispatch) => {

@@ -5,18 +5,34 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import HeaderCom from "@/components/header";
 import FooterCom from "@/components/footer";
+import { appRouters } from "./../../router/router";
 import "./index.less";
 const { Content } = Layout;
 class LayoutCom extends Component {
 	static propTypes = {
 		setAffixData: PropTypes.func,
+		setCommonStateData: PropTypes.func,
 	};
 	static defaultProps = {
 		setAffixData: () => {},
+		setCommonStateData: () => {},
 	};
 	constructor(props) {
 		super(props);
 		this.state = {};
+	}
+	componentDidMount() {
+		const { location = {}, setCommonStateData } = this.props;
+		const { pathname } = location;
+		let _ativeIndex = 0;
+		appRouters.map((item, index) => {
+			if (item.path === pathname) {
+				_ativeIndex = index;
+			}
+		});
+		setCommonStateData({
+			activeIndex: _ativeIndex,
+		});
 	}
 	onAffixChangeAction = (e) => {
 		this.props.setAffixData({
@@ -68,6 +84,7 @@ const mapState = (state = {}) => {
 const mapDispatch = (dispatch) => {
 	return {
 		setAffixData: dispatch.Common.setAffixData,
+		setCommonStateData: dispatch.Common.setCommonStateData,
 	};
 };
 

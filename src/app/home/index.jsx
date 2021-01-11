@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, Popover } from "antd";
 import QueueAnim from "rc-queue-anim";
-import { MobileFilled } from "@ant-design/icons";
+import FixedApp from "@/components/fixedApp";
 import "./index.less";
 const option1Arr = [
 	require("./../../images/icon-23.png").default,
@@ -114,11 +114,15 @@ export default class Home extends React.Component {
 		};
 	}
 	componentDidMount() {
-		setTimeout(() => {
+		this.timer = setTimeout(() => {
 			this.setState({
 				isShow: true,
 			});
 		}, 1000);
+	}
+	componentWillUnmount() {
+		this.timer && clearTimeout(this.timer);
+		this.timer2 && clearTimeout(this.timer2);
 	}
 	onTabClickAction = (index) => {
 		this.setState({
@@ -126,7 +130,7 @@ export default class Home extends React.Component {
 			option1Src: option1Arr[index],
 			tabsIndex: index,
 		});
-		setTimeout(() => {
+		this.timer2 = setTimeout(() => {
 			this.setState({
 				tabImgIsShow: true,
 			});
@@ -390,46 +394,7 @@ export default class Home extends React.Component {
 			</div>
 		);
 	}
-	_renderFixed() {
-		const { isShow } = this.state;
-		return (
-			<QueueAnim
-				className="banner-item"
-				duration={1000}
-				animConfig={[
-					{ opacity: [1, 0], translateX: [0, 300] },
-					{ opacity: [1, 0], translateX: [0, -300] },
-				]}
-			>
-				{isShow ? (
-					<Popover
-						placement="left"
-						title={null}
-						className="demo-thead"
-						key="c"
-						content={
-							<div>
-								<div className="fixed-right-text">下载小学生网校APP</div>
-								<div className="fixed-right-img1-box">
-									<Image
-										className="fixed-right-img1"
-										src={require("./../../images/erweima_32.png").default}
-									/>
-								</div>
-								<div className="fixed-right-text">服务打动人心</div>
-								<div className="fixed-right-text">超越用户期待</div>
-							</div>
-						}
-					>
-						<div className="fixed-right">
-							<MobileFilled className="fixed-right-icon" />
-							<div>APP下载</div>
-						</div>
-					</Popover>
-				) : null}
-			</QueueAnim>
-		);
-	}
+
 	render() {
 		return (
 			<div className="home-content">
@@ -439,7 +404,7 @@ export default class Home extends React.Component {
 				{this._renderOption3()}
 				{this._renderOption4()}
 				{this._renderOption5()}
-				{this._renderFixed()}
+				<FixedApp />
 			</div>
 		);
 	}

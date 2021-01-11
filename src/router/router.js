@@ -1,31 +1,33 @@
 import Home from "@/app/home";
-// import PageA from "@/app/pageA";
+import Cooperation from "@/app/cooperation";
 import NotFound from "@/app/404";
-import Login from "@/app/login";
+import My from "@/app/my";
 export const appRouters = [
 	{
-		exact: true,
 		path: "/",
+		exact: true,
+		title: "首页",
+		redirect: "/home",
 		iconType: "BankOutlined",
-		hasNotShow: true,
 		component: Home,
 	},
-	// {
-	// 	path: "/upload",
-	// 	title: "图片上传",
-	// 	iconType: "BankOutlined",
-	// 	// component: PageA,
-	// },
+	{
+		path: "/cooperation",
+		title: "申请合作",
+		iconType: "BankOutlined",
+		component: Cooperation,
+	},
+	{
+		path: "/my",
+		title: "学习中心",
+		iconType: "BankOutlined",
+		component: My,
+	},
 ];
 export const configRouters = [
 	{
 		path: "/404",
 		title: "404",
 		component: NotFound,
-	},
-	{
-		path: "/login",
-		title: "login",
-		component: Login,
 	},
 ];

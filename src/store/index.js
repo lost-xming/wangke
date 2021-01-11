@@ -1,12 +1,10 @@
 import { init } from "@rematch/core";
 import Common from "./common";
-import login from "@/app/login/store";
-import loginCom from "@/components/login/store";
+import my from "@/app/my/store";
 const store = init({
 	models: {
 		Common,
-		login,
-		loginCom,
+		my,
 	},
 });
 

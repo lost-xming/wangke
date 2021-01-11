@@ -5,9 +5,9 @@ const NoMatch = (r) => {
 	// redirectPath  统一重定向到 404
 	return <Route path={r.path} render={() => <Redirect to={"/404"} />} />;
 };
-const HasLogin = () => {
-	return <Redirect to={"/login"} />;
-};
+// const HasLogin = () => {
+// 	return <Redirect to={"/login"} />;
+// };
 const AuthorizedRoute = (r) => {
 	const { path, component: Component, render, authority, ...rest } = r;
 	return (
@@ -15,7 +15,7 @@ const AuthorizedRoute = (r) => {
 			key={path}
 			authority={authority}
 			noMatch={NoMatch(r)}
-			login={HasLogin()}
+			// login={HasLogin()}
 		>
 			<Route
 				path={path}

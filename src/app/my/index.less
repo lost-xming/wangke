@@ -1,0 +1,212 @@
+.my-content {
+	position: relative;
+	.my-content-bg {
+	}
+	.my-box {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0%;
+		.my-box-content {
+			width: 80%;
+			height: 80%;
+			background-color: #fff;
+			border-radius: 0.5rem;
+			display: flex;
+			align-items: center;
+			@media screen and (max-width: 1360px) {
+				display: flex;
+				align-items: center;
+			}
+			@media screen and (max-width: 900px) {
+				display: flex;
+				align-items: center;
+			}
+			@media screen and (max-width: 630px) {
+				display: block;
+			}
+			.my-left {
+				width: 70%;
+				height: 100%;
+				background: url("./../../images/my-1_03.png") -1.5rem center no-repeat;
+				background-size: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				@media screen and (max-width: 630px) {
+					height: 4rem;
+				}
+				.my-left-img {
+					width: 60%;
+				}
+			}
+			.my-right {
+				height: 100%;
+				padding-top: 2rem;
+				@media screen and (max-width: 630px) {
+					width: 70%;
+					height: 6rem;
+					margin: 0 auto;
+					padding-top: 0.5rem;
+				}
+				h1 {
+					font-size: 0.5rem;
+					color: #fa7264;
+				}
+				.my-right-wel {
+					font-size: 0.3rem;
+					color: #cccccc;
+					margin-bottom: 0.4rem;
+				}
+				.my-right-userPhone {
+					width: 70%;
+					background-color: #dddddd;
+					margin-top: 0.4rem;
+					border-radius: 1rem;
+					@media screen and (max-width: 900px) {
+						margin-top: 0.2rem;
+					}
+					@media screen and (max-width: 630px) {
+						width: 100%;
+					}
+					.ant-input {
+						font-size: 0.3rem !important;
+					}
+				}
+				.site-form-item-icon {
+					font-size: 0.35rem;
+					color: #999999;
+				}
+				.my-right-btn {
+					width: 70%;
+					height: 0.8rem;
+					cursor: pointer;
+					color: #fff;
+					font-size: 0.3rem;
+					border-radius: 1rem;
+					background-color: #dddddd;
+					margin-top: 0.5rem;
+					text-align: center;
+					line-height: 0.8rem;
+					@media screen and (max-width: 630px) {
+						margin-top: 0.4rem;
+						width: 100%;
+					}
+				}
+				.my-right-btn-color {
+					background: linear-gradient(to right, #facf27 0%, #ff564f 100%);
+				}
+			}
+		}
+	}
+	.pay {
+		width: 100%;
+		height: 100%;
+
+		position: absolute;
+		top: 1rem;
+		left: 0;
+		.pay-header {
+			width: 80%;
+			height: 2rem;
+			margin: 0 auto;
+			display: flex;
+			align-items: center;
+			padding-left: 1rem;
+			background: url("./../../images/pay1.png") left center repeat-x;
+		}
+		.pay-user-img {
+			border-radius: 50%;
+			background: #ccc;
+			border: 2px solid #fff;
+			overflow: hidden;
+		}
+		.pay-user-info {
+			padding-left: 0.3rem;
+			line-height: 0.4rem;
+		}
+		.pay-body {
+			width: 80%;
+			margin: 0 auto;
+			padding: 10px 20px;
+			background-color: #fff;
+			h2 {
+				margin-bottom: 0.5rem;
+			}
+			.pay-body-list {
+				display: flex;
+				flex-wrap: wrap;
+				.pay-item {
+					width: 5rem;
+					margin-right: 1rem;
+					margin-bottom: 1rem;
+					border: 1px solid #999999;
+					border-radius: 10px;
+					padding: 0.2rem 0.5rem;
+					position: relative;
+					cursor: pointer;
+					&:nth-child(0) {
+						margin-right: 0;
+					}
+					.pay-item-tips {
+						color: #fff;
+						line-height: 0.3rem;
+						padding: 0 0.2rem;
+						background: linear-gradient(to right, #ffa349 0%, #ff364e 100%);
+						border-top-right-radius: 0.2rem;
+						position: absolute;
+						left: 0;
+						top: -0.2rem;
+					}
+					.pay-item-title {
+						color: #81581c;
+						font-size: 0.3rem;
+						font-weight: 600;
+					}
+					.pay-item-amount {
+						display: flex;
+						color: #81581c !important;
+						align-items: flex-end;
+						margin-bottom: 0.1rem;
+						.pay-item-amount-tip {
+							font-size: 0.2rem;
+							line-height: 0.3rem;
+							margin-left: 0.1rem;
+							padding: 0 0.1rem;
+							border-radius: 0.15rem;
+							margin-bottom: 0.2rem;
+							border: 1px solid #81581c;
+						}
+						.pay-item-amount-info {
+							color: #81581c !important;
+						}
+					}
+					.pay-item-btn {
+						width: 80%;
+						height: 0.6rem;
+						color: #eecb96;
+						border-radius: 0.1rem;
+						text-align: center;
+						font-size: 0.25rem;
+						line-height: 0.6rem;
+						font-weight: 600;
+						cursor: pointer;
+						margin: 0 auto;
+						background: linear-gradient(to right, #6b6257 0%, #333 100%);
+					}
+				}
+				.pay-item-active {
+					background: url("./../../images/pay2.png") left top no-repeat;
+					background-size: 110%;
+				}
+			}
+		}
+	}
+	.icon-huangguan {
+		color: #81581c;
+	}
+}
