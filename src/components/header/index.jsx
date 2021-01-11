@@ -10,9 +10,11 @@ const { Header } = Layout;
 class HeaderCom extends React.Component {
 	static propTypes = {
 		activeIndex: PropTypes.number,
+		setCommonStateData: PropTypes.func,
 	};
 	static defaultProps = {
 		activeIndex: 0,
+		setCommonStateData: () => {},
 	};
 	constructor(props) {
 		super(props);
@@ -20,9 +22,6 @@ class HeaderCom extends React.Component {
 			headerHide: false,
 		};
 	}
-	onLoginAction = () => {
-		this.props.history.push("/admin");
-	};
 	componentDidMount() {
 		this.setState({
 			headerHide: true,
@@ -36,6 +35,12 @@ class HeaderCom extends React.Component {
 	componentWillUnmount() {
 		this.timer && clearTimeout(this.timer);
 	}
+	onMenuAction = (index) => {
+		const { setCommonStateData } = this.props;
+		setCommonStateData({
+			activeIndex: index,
+		});
+	};
 	render() {
 		const { headerHide } = this.state;
 		const { activeIndex } = this.props;
@@ -67,7 +72,10 @@ class HeaderCom extends React.Component {
 						>
 							{appRouters.map((item, index) => {
 								return (
-									<Menu.Item key={index}>
+									<Menu.Item
+										key={index}
+										onClick={() => this.onMenuAction(index)}
+									>
 										<Link to={item.path}>{item.title}</Link>
 									</Menu.Item>
 								);
@@ -86,6 +94,8 @@ const mapState = (state = {}) => {
 	};
 };
 const mapDispatch = (dispatch) => {
-	return {};
+	return {
+		setCommonStateData: dispatch.Common.setCommonStateData,
+	};
 };
 export default connect(mapState, mapDispatch)(withRouter(HeaderCom));

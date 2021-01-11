@@ -21,6 +21,29 @@ export default class FiexdApp extends React.Component {
 	componentWillUnmount() {
 		this.timer && clearTimeout(this.timer);
 	}
+	downApp = () => {
+		const { navigator } = window;
+		var u = navigator.userAgent,
+			isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1,
+			isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+			urls = {
+				android:
+					"http://www.aso12345.com/appIntroduction/primaryeducation.html",
+				ios: "https://itunes.apple.com/cn/app/id1513133147",
+				other: "http://www.aso12345.com/appIntroduction/primaryeducation.html",
+			};
+		//三元运算
+		// window.location.href = isAndroid? urls.android : isiOS? urls.ios : urls.other;
+		//简化
+		if (isAndroid) {
+			window.location.href = urls.android;
+		} else if (isiOS) {
+			window.location.href = urls.ios;
+		} else {
+			window.location.href = urls.other;
+		}
+	};
+
 	_renderFixed() {
 		const { isShow } = this.state;
 		return (
@@ -52,7 +75,7 @@ export default class FiexdApp extends React.Component {
 							</div>
 						}
 					>
-						<div className="fixed-right">
+						<div className="fixed-right" onClick={this.downApp}>
 							<MobileFilled className="fixed-right-icon" />
 							<div>APP下载</div>
 						</div>

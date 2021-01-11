@@ -29,7 +29,7 @@ export default class FooterCom extends React.Component {
 					联系我们：<span style={{ color: "#ffffff" }}>15972847855</span>
 					（版权及内容合作）
 				</div>
-				<div>版权XXXXXXXX Copyright©武汉梦幻x遐游科技有限公司</div>
+				<div>鄂ICP备17026939号-2 Copyright©武汉梦幻遐游科技有限公司</div>
 			</Footer>
 		);
 	}

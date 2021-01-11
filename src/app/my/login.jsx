@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, Popover, Input, Button } from "antd";
+import { Image, Popover, Input, Button, Statistic } from "antd";
 import { connect } from "react-redux";
 import "./index.less";
+const { Countdown } = Statistic;
 class Login extends React.Component {
 	static propTypes = {
 		loginAction: PropTypes.func,
@@ -13,6 +14,8 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			count: 60,
+			liked: true,
 			phoneValue: "",
 			passwordValue: "",
 		};
@@ -32,8 +35,35 @@ class Login extends React.Component {
 			passwordValue,
 		});
 	};
+	countDown = () => {
+		const { count } = this.state;
+		if (count === 1) {
+			this.setState({
+				count: 60,
+				liked: true,
+			});
+		} else {
+			this.setState({
+				count: count - 1,
+				liked: false,
+			});
+			this.timer = setTimeout(this.countDown.bind(this), 1000);
+		}
+	};
+
+	handleClick = () => {
+		const { liked } = this.state;
+		if (!liked) {
+			return;
+		}
+		this.countDown();
+	};
+	componentWillUnmount() {
+		this.timer && clearTimeout(this.timer);
+	}
+
 	render() {
-		const { phoneValue, passwordValue } = this.state;
+		const { phoneValue, passwordValue, count, liked } = this.state;
 		return (
 			<div className="my-box">
 				<div className="my-box-content">
@@ -62,6 +92,20 @@ class Login extends React.Component {
 							bordered={false}
 							prefix={
 								<div className="iconfont icon-mima site-form-item-icon" />
+							}
+							suffix={
+								<Button
+									disabled={!liked}
+									size="small"
+									style={{
+										fontSize: "0.2rem",
+										border: "none",
+										backgroundColor: "transparent",
+									}}
+									onClick={this.handleClick}
+								>
+									{liked ? "获取验证码" : `${count} 秒后重发`}
+								</Button>
 							}
 							value={passwordValue}
 							onChange={(e) => this.onInputStateChange(e, "passwordValue")}
