@@ -1,48 +1,91 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, Popover, Input, Button, Statistic } from "antd";
+import { Image, Popover, Input, Button, Statistic, Modal } from "antd";
+import { AlipayCircleFilled, WechatFilled } from "@ant-design/icons";
 import { connect } from "react-redux";
+import QRCode from "qrcode.react";
 import "./index.less";
 class Pay extends React.Component {
 	static propTypes = {
 		userInfo: PropTypes.object,
+		getList: PropTypes.func,
+		carList: PropTypes.array,
+		getWeiXinPay: PropTypes.func,
+		getZhiFuBaoPay: PropTypes.func,
 	};
 	static defaultProps = {
 		userInfo: {},
+		getList: () => {},
+		getWeiXinPay: () => {},
+		getZhiFuBaoPay: () => {},
+		carList: [],
 	};
 	constructor(props) {
 		super(props);
 		this.state = {
 			activeIndex: 1,
-			payArr: [
-				{
-					id: 1,
-					amount: 128,
-					title: "连续包学期(6个月)",
-					discount: 104,
-				},
-				{
-					id: 2,
-					amount: 228,
-					title: "连续包年(12个月)",
-					discount: 132,
-				},
-			],
+			payItem: {},
+			onShowPay: false,
+			payUrl: "",
 		};
 	}
-	componentDidMount() {}
+	componentDidMount() {
+		this.initData();
+	}
+	initData = () => {
+		const { getList } = this.props;
+		getList();
+	};
 	componentWillUnmount() {}
 	onInputStateChange = (value, k) => {
 		this.setState({
 			[k]: value,
 		});
 	};
-	onGoPay = (index) => {
-		console.log("支付 选中----", index);
+	onGoPay = (item) => {
+		this.setState({
+			onShowPay: true,
+			payItem: item,
+		});
+	};
+	onCancel = () => {
+		this.setState({
+			onShowPay: false,
+			payItem: {},
+		});
+	};
+	onWeiXinPay = async () => {
+		const { getWeiXinPay } = this.props;
+		const { payItem } = this.state;
+		const data = await getWeiXinPay({
+			product_id: payItem.id,
+		});
+		// 判断 手机还是 pc
+		if (this.isUserAgent()) {
+			// 直接 打开
+		} else {
+			// 生成二维码
+			this.setState({
+				payUrl: "weixin://wxpay/bizpayurl?pr=mWFE7NVzz",
+			});
+		}
+	};
+	onZhiFuBaoPay = async () => {
+		const { getZhiFuBaoPay } = this.props;
+		const { payItem } = this.state;
+		const data = await getZhiFuBaoPay({
+			product_id: payItem.id,
+		});
+	};
+	// 判断当前平台是移动端还是pc端
+	isUserAgent = () => {
+		return /Android|webOS|iPhone|iPod|BlackBerry/i.test(
+			window.navigator.userAgent
+		);
 	};
 	render() {
-		const { payArr, activeIndex } = this.state;
-		const { userInfo } = this.props;
+		const { activeIndex, onShowPay, payUrl } = this.state;
+		const { userInfo, carList } = this.props;
 		return (
 			<div className="pay">
 				<div className="pay-header">
@@ -64,7 +107,15 @@ class Pay extends React.Component {
 				<div className="pay-body">
 					<h2>套餐类型</h2>
 					<div className="pay-body-list">
-						{payArr.map((item, index) => {
+						{carList.map((item, index) => {
+							let str = "月";
+							if (item.month === 3) {
+								str = "季度";
+							} else if (item.month === 6) {
+								str = "学期";
+							} else if (item.month === 12) {
+								str = "年";
+							}
 							return (
 								<div
 									key={`pay-item-${index}`}
@@ -73,24 +124,30 @@ class Pay extends React.Component {
 										index === activeIndex ? "pay-item-active" : ""
 									}`}
 								>
-									<div className="pay-item-tips">一年省{item.discount}元</div>
-									<div className="pay-item-title">{item.title}</div>
+									<div className="pay-item-tips">
+										一年省
+										{((item.money - item.discount_monty || 0) * 12) /
+											item.month}
+										元
+									</div>
+									<div className="pay-item-title">{`连续包${str}(${item.name})`}</div>
 									<div className="pay-item-amount">
 										<span>¥</span>
 										<Statistic
 											style={{ margin: "0 5px" }}
 											valueStyle={{ color: "#81581c" }}
 											title={null}
-											value={item.amount}
+											value={item.discount_monty || item.money}
 										/>
 										<span>元</span>
 										<div className="pay-item-amount-tip">
-											次学期续费{item.amount}元
+											{`次${str}续费`}
+											{item.discount_monty || item.money}元
 										</div>
 									</div>
 									<Button
 										size="small"
-										onClick={() => this.onGoPay(index)}
+										onClick={() => this.onGoPay(item)}
 										className="pay-item-btn"
 										type="primary"
 									>
@@ -101,17 +158,52 @@ class Pay extends React.Component {
 						})}
 					</div>
 				</div>
+				{onShowPay && (
+					<div className="payModal">
+						{payUrl ? (
+							<div className="pay-result">
+								<div>
+									<h2>请打开微信扫一扫</h2>
+									<QRCode
+										className="pay-er"
+										value={payUrl} //value参数为生成二维码的链接
+										fgColor="#000000"
+									/>
+								</div>
+							</div>
+						) : (
+							<div className="zhifu-content">
+								<h2>请选择支付方式</h2>
+								<div className="zhifu-content-box">
+									<div className="zhifu-item" onClick={this.onZhiFuBaoPay}>
+										<AlipayCircleFilled className="zhifubao" />
+										<div>支付宝支付</div>
+									</div>
+									<div onClick={this.onWeiXinPay}>
+										<WechatFilled className="weixin" />
+										<div>微信支付</div>
+									</div>
+								</div>
+							</div>
+						)}
+					</div>
+				)}
 			</div>
 		);
 	}
 }
 
 const mapDispatch = (dispatch) => {
-	return {};
+	return {
+		getList: dispatch.my.getList,
+		getWeiXinPay: dispatch.my.getWeiXinPay,
+		getZhiFuBaoPay: dispatch.my.getZhiFuBaoPay,
+	};
 };
 const mapState = (state) => {
 	return {
 		userInfo: state.my.userInfo,
+		carList: state.my.carList,
 	};
 };
 export default connect(mapState, mapDispatch)(Pay);

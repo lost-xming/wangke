@@ -7,9 +7,11 @@ const { Countdown } = Statistic;
 class Login extends React.Component {
 	static propTypes = {
 		loginAction: PropTypes.func,
+		getLoginSms: PropTypes.func,
 	};
 	static defaultProps = {
 		loginAction: () => {},
+		getLoginSms: () => {},
 	};
 	constructor(props) {
 		super(props);
@@ -31,11 +33,11 @@ class Login extends React.Component {
 		const { phoneValue, passwordValue } = this.state;
 		const { loginAction } = this.props;
 		loginAction({
-			phoneValue,
-			passwordValue,
+			phone: phoneValue,
+			ver_number: passwordValue,
 		});
 	};
-	countDown = () => {
+	countDown = async () => {
 		const { count } = this.state;
 		if (count === 1) {
 			this.setState({
@@ -43,6 +45,7 @@ class Login extends React.Component {
 				liked: true,
 			});
 		} else {
+			const data = await this.props.getLoginSms({ phone: 15171658986 });
 			this.setState({
 				count: count - 1,
 				liked: false,
@@ -131,6 +134,7 @@ class Login extends React.Component {
 const mapDispatch = (dispatch) => {
 	return {
 		loginAction: dispatch.my.loginAction,
+		getLoginSms: dispatch.my.getLoginSms,
 	};
 };
 const mapState = (state) => {

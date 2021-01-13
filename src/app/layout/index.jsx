@@ -57,9 +57,7 @@ class LayoutCom extends Component {
 				>
 					<HeaderCom />
 				</Affix>
-				<div className="site-layout-content">
-					<div>{children}</div>
-				</div>
+				<div className="site-layout-content">{children}</div>
 				<FooterCom />
 			</Content>
 		);

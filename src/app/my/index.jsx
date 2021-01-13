@@ -43,7 +43,8 @@ class My extends React.Component {
 		return (
 			<div className="my-content">
 				<Image
-					height={"calc(100vh - 3.2rem)"}
+					height={"100%"}
+					// height={"calc(100vh - 3.2rem)"}
 					className="my-content-bg"
 					preview={false}
 					src={require("./../../images/mybg_02.png").default}

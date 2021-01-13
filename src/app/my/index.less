@@ -1,16 +1,30 @@
 .my-content {
+	width: 100%;
+	height: 100%;
 	position: relative;
+	min-height: calc(100vh - 3.2rem);
 	.my-content-bg {
+		position: absolute;
+		top: 0;
+		left: 0;
 	}
 	.my-box {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		height: 100%;
+		min-height: 100%;
 		width: 100%;
-		position: absolute;
-		top: 0;
-		left: 0%;
+		position: relative;
+		padding-top: 2rem;
+		@media screen and (max-width: 1360px) {
+			padding-top: 2rem;
+		}
+		@media screen and (max-width: 900px) {
+			padding-top: 1rem;
+		}
+		@media screen and (max-width: 630px) {
+			padding-top: 0.5rem;
+		}
 		.my-box-content {
 			width: 80%;
 			height: 80%;
@@ -47,11 +61,13 @@
 			.my-right {
 				height: 100%;
 				padding-top: 2rem;
+				padding-bottom: 1rem;
 				@media screen and (max-width: 630px) {
 					width: 70%;
 					height: 6rem;
 					margin: 0 auto;
 					padding-top: 0.5rem;
+					padding-bottom: 0.3rem;
 				}
 				h1 {
 					font-size: 0.5rem;
@@ -106,10 +122,9 @@
 	.pay {
 		width: 100%;
 		height: 100%;
-
-		position: absolute;
-		top: 1rem;
-		left: 0;
+		position: relative;
+		padding-top: 1rem;
+		margin-bottom: 1rem;
 		.pay-header {
 			width: 80%;
 			height: 2rem;
@@ -140,10 +155,11 @@
 			.pay-body-list {
 				display: flex;
 				flex-wrap: wrap;
+				justify-content: space-between;
 				.pay-item {
 					width: 5rem;
-					margin-right: 1rem;
 					margin-bottom: 1rem;
+					margin-right: 0.1rem;
 					border: 1px solid #999999;
 					border-radius: 10px;
 					padding: 0.2rem 0.5rem;
@@ -208,5 +224,57 @@
 	}
 	.icon-huangguan {
 		color: #81581c;
+	}
+	.payModal {
+		background-color: rgba(0, 0, 0, 0.25);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 9999;
+		.zhifu-content {
+			width: 6rem;
+			height: 4rem;
+			padding: 0.3rem 0;
+			background-color: #fff;
+			border-radius: 10px;
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			.zhifu-item {
+				margin-right: 1rem;
+			}
+			.zhifu-content-box {
+				display: flex;
+				.zhifubao {
+					color: #1677ff;
+					font-size: 1.5rem;
+					cursor: pointer;
+				}
+				.weixin {
+					color: #609700;
+					font-size: 1.5rem;
+					cursor: pointer;
+				}
+			}
+		}
+		.pay-result {
+			width: 5rem;
+			height: 5rem;
+			padding: 0.3rem;
+			background-color: #fff;
+			border-radius: 10px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			h2 {
+				margin-bottom: 0.2rem;
+			}
+		}
 	}
 }

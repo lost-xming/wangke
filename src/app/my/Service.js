@@ -4,10 +4,22 @@ import { apiUrl } from "@/config-url/config";
 class Service extends CommonService {
 	/**
 	 *
-	 * @param {跟新数据} params
+	 * @param {} params
 	 */
 	loginAction(params) {
-		return POST(`${apiUrl}/login`, params);
+		return POST(`${apiUrl}/www/sms_login_send_sms/`, params);
+	}
+	getLoginSms(params) {
+		return POST(`${apiUrl}/www/sms_login_send_sms`, params);
+	}
+	getList(params) {
+		return POST(`${apiUrl}/www/member/get_member_commodity_list`, params);
+	}
+	getWeiXinPay(params) {
+		return POST(`${apiUrl}/www/member/wx_unified_order`, params);
+	}
+	getZhiFuBaoPay(params) {
+		return POST(`${apiUrl}/www/member/wx_unified_order`, params);
 	}
 }
 
