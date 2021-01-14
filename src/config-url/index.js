@@ -1,26 +1,22 @@
 const CONFIG = {
 	development: {
-		targetUrl: "http://sever.jddianqi.cn",
-		apiUrl: "http://sever.jddianqi.cn",
-		apiUrlFilter: "/adminApi",
-		proxyFilter: "/adminApi",
-		imUrl: "https://jd-buc-img.oss-cn-shenzhen.aliyuncs.com",
+		targetUrl: "http://api.smallschoolbag.com",
+		apiUrl: "http://api.smallschoolbag.com",
+		apiUrlFilter: "/api",
+		proxyFilter: "/api",
 		autoOpenBrowser: true,
 	},
 	prodDev: {
-		apiUrl: "http://sever.jddianqi.cn",
-		apiUrlFilter: "/adminApi",
-		imUrl: "https://jd-buc-img.oss-cn-shenzhen.aliyuncs.com",
+		apiUrl: "http://api.smallschoolbag.com",
+		apiUrlFilter: "/api",
 	},
 	test: {
-		apiUrl: "http://sever.jddianqi.cn",
-		apiUrlFilter: "/adminApi",
-		imUrl: "https:///pt-test.bthome.com/appApi/apis",
+		apiUrl: "http://api.smallschoolbag.com",
+		apiUrlFilter: "/api",
 	},
 	production: {
-		apiUrl: "http://sever.jddianqi.cn",
-		apiUrlFilter: "/adminApi",
-		imUrl: "https:///pt-test.bthome.com/appApi/apis",
+		apiUrl: "http://api.smallschoolbag.com",
+		apiUrlFilter: "/api",
 	},
 };
 export default CONFIG;

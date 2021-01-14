@@ -7,7 +7,7 @@ class Service extends CommonService {
 	 * @param {} params
 	 */
 	loginAction(params) {
-		return POST(`${apiUrl}/www/sms_login_send_sms/`, params);
+		return POST(`${apiUrl}/www/sms_login_send_sms`, params);
 	}
 	getLoginSms(params) {
 		return POST(`${apiUrl}/www/sms_login_send_sms`, params);

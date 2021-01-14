@@ -124,12 +124,14 @@ class Pay extends React.Component {
 										index === activeIndex ? "pay-item-active" : ""
 									}`}
 								>
-									<div className="pay-item-tips">
-										一年省
-										{((item.money - item.discount_monty || 0) * 12) /
-											item.month}
-										元
-									</div>
+									{item.discount_monty && (
+										<div className="pay-item-tips">
+											一年省
+											{((item.money - item.discount_monty || 0) * 12) /
+												item.month}
+											元
+										</div>
+									)}
 									<div className="pay-item-title">{`连续包${str}(${item.name})`}</div>
 									<div className="pay-item-amount">
 										<span>¥</span>
@@ -159,7 +161,7 @@ class Pay extends React.Component {
 					</div>
 				</div>
 				{onShowPay && (
-					<div className="payModal">
+					<div className="payModal" onClick={this.onCancel}>
 						{payUrl ? (
 							<div className="pay-result">
 								<div>

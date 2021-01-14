@@ -313,7 +313,10 @@ class AXIOS {
 				default:
 					break;
 			}
-			config.headers = { "Content-Type": contentType };
+			config.headers = {
+				"Content-Type": contentType,
+				phone_system_type: "applets",
+			};
 			config.data = cfgData;
 		}
 		return config;
