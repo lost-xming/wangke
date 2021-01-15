@@ -107,7 +107,7 @@ class AXIOS {
 	HTTP = (method, url, data, type = "json", ...others) => {
 		if (!url) return null;
 		const { key, mask, withCredentials } = others;
-		const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+		const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 		const ajaxData = Object.assign({}, data, {
 			token: userInfo.token,
 			test: true,
@@ -312,7 +312,7 @@ class AXIOS {
 				default:
 					break;
 			}
-			const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+			const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 			config.headers = {
 				"Content-Type": contentType,
 				phone_system_type: "applets",

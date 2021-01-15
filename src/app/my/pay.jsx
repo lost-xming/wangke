@@ -166,7 +166,7 @@ class Pay extends React.Component {
 			payType,
 		} = this.state;
 		const { userInfo, carList, dataSource } = this.props;
-		const storeUserInfo = JSON.parse(localStorage.getItem("userInfo"));
+		const storeUserInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 		const newUserInfo = Object.assign({}, userInfo, storeUserInfo);
 		return (
 			<div className="pay">
