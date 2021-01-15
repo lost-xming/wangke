@@ -30,7 +30,6 @@ class LayoutCom extends Component {
 				_ativeIndex = index;
 			}
 		});
-		console.log(222, _ativeIndex);
 		setCommonStateData({
 			activeIndex: _ativeIndex,
 		});

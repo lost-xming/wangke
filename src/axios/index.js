@@ -25,7 +25,7 @@ class AXIOS {
 	 * @return string
 	 */
 	getEnv = () => {
-		return process.env.CURRENT_ENV || "production";
+		return process.env.NODE_ENV || "production";
 	};
 	/**
 	 * @param {依照环境生成域名} type  string
@@ -33,7 +33,10 @@ class AXIOS {
 	genDomainForEnv = (type) => {
 		const env = this.getEnv();
 		const typeJson = {
-			default: `${CONFIOG[env].apiUrl}${CONFIOG[env].apiUrlFilter}`,
+			default:
+				env === "production"
+					? `${CONFIOG[env].apiUrl}${CONFIOG[env].authUrlFilter}`
+					: `${CONFIOG[env].apiUrlFilter}`,
 			auth: `${CONFIOG[env].authUrl}${CONFIOG[env].authUrlFilter}`,
 			im: `${CONFIOG[env].imUrl}`,
 		};
@@ -52,7 +55,7 @@ class AXIOS {
 		return new Promise((resolve, reject) => {
 			return this.HTTP(
 				AXIOS.METHOD.GET,
-				url,
+				`${this.genDomainForEnv(option.urlType)}${url}`,
 				data,
 				"json",
 				option.key,
@@ -81,7 +84,7 @@ class AXIOS {
 		return new Promise((resolve, reject) => {
 			return this.HTTP(
 				AXIOS.METHOD.POST,
-				url,
+				`${this.genDomainForEnv(option.urlType)}${url}`,
 				data,
 				option.type,
 				option.key,

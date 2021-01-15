@@ -8,15 +8,15 @@ const CONFIG = {
 	},
 	prodDev: {
 		apiUrl: "http://api.smallschoolbag.com",
-		apiUrlFilter: "/api",
+		apiUrlFilter: "",
 	},
 	test: {
 		apiUrl: "http://api.smallschoolbag.com",
-		apiUrlFilter: "/api",
+		apiUrlFilter: "",
 	},
 	production: {
-		apiUrl: "http://api.smallschoolbag.com",
-		apiUrlFilter: "/api",
+		apiUrl: "http://192.168.3.128:5002",
+		apiUrlFilter: "",
 	},
 };
 export default CONFIG;
