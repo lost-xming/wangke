@@ -35,7 +35,7 @@ class AXIOS {
 		const typeJson = {
 			default:
 				env === "production"
-					? `${CONFIOG[env].apiUrl}${CONFIOG[env].authUrlFilter}`
+					? `${CONFIOG[env].apiUrl}${CONFIOG[env].apiUrlFilter}`
 					: `${CONFIOG[env].apiUrlFilter}`,
 			auth: `${CONFIOG[env].authUrl}${CONFIOG[env].authUrlFilter}`,
 			im: `${CONFIOG[env].imUrl}`,
