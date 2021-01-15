@@ -33,10 +33,11 @@ class AXIOS {
 	genDomainForEnv = (type) => {
 		const env = this.getEnv();
 		const typeJson = {
-			default:
-				env === "production"
-					? `${CONFIOG[env].apiUrl}${CONFIOG[env].apiUrlFilter}`
-					: `${CONFIOG[env].apiUrlFilter}`,
+			// default:
+			// 	env === "production"
+			// 		? `${CONFIOG[env].apiUrl}${CONFIOG[env].apiUrlFilter}`
+			// 		: `${CONFIOG[env].apiUrlFilter}`,
+			default: `${CONFIOG[env].apiUrl}${CONFIOG[env].apiUrlFilter}`,
 			auth: `${CONFIOG[env].authUrl}${CONFIOG[env].authUrlFilter}`,
 			im: `${CONFIOG[env].imUrl}`,
 		};
@@ -111,6 +112,7 @@ class AXIOS {
 		const ajaxData = Object.assign({}, data, {
 			token: userInfo.token,
 			test: true,
+			phone_system_type: "applets",
 		});
 		const send = this.axios.request;
 		const config = this.getHttpConfig(
@@ -254,7 +256,7 @@ class AXIOS {
 	 */
 	getHttpConfig = (
 		specificConf,
-		withCredentials = true,
+		withCredentials = false,
 		method,
 		url,
 		data,
@@ -315,8 +317,8 @@ class AXIOS {
 			const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 			config.headers = {
 				"Content-Type": contentType,
-				phone_system_type: "applets",
-				token: userInfo.token || undefined,
+				// phoneSystemType: "applets",
+				// Token: userInfo.token || undefined,
 			};
 			config.data = cfgData;
 		}

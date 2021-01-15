@@ -186,7 +186,7 @@ class Pay extends React.Component {
 							)}
 						</div>
 						{newUserInfo.expires_date && (
-							<div>您的会员截止日期为：{newUserInfo.timer}</div>
+							<div>您的会员截止日期为：{newUserInfo.expires_date}</div>
 						)}
 					</div>
 				</div>
