@@ -129,8 +129,12 @@ module.exports = function (webpackEnv) {
 						}),
 						// Adds PostCSS Normalize as the reset css with default options,
 						// so that it honors browserslist config in package.json
-						// which in turn let's users customize the target behavior as per their needs.
-						px2rem({ remUnit: 37.5 }),
+						// which in turn let's users customize the target behavior as per their needs
+						require("postcss-px2rem-exclude")({
+							// remUnit 等于 设计稿宽度  750除以10  37.5
+							remUnit: 37.5,
+							exclude: /node_modules/i,
+						}),
 						postcssNormalize(),
 					],
 					sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,

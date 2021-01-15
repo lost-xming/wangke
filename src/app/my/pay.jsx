@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, Popover, Input, Button, Statistic, Modal } from "antd";
+import { Image, Popover, Input, Button, Statistic, Modal, Table } from "antd";
 import { AlipayCircleFilled, WechatFilled } from "@ant-design/icons";
 import { connect } from "react-redux";
 import QRCode from "qrcode.react";
@@ -12,13 +12,17 @@ class Pay extends React.Component {
 		carList: PropTypes.array,
 		getWeiXinPay: PropTypes.func,
 		getZhiFuBaoPay: PropTypes.func,
+		getHostory: PropTypes.func,
+		dataSource: PropTypes.array,
 	};
 	static defaultProps = {
 		userInfo: {},
 		getList: () => {},
 		getWeiXinPay: () => {},
 		getZhiFuBaoPay: () => {},
+		getHostory: () => {},
 		carList: [],
+		dataSource: [],
 	};
 	constructor(props) {
 		super(props);
@@ -27,13 +31,64 @@ class Pay extends React.Component {
 			payItem: {},
 			onShowPay: false,
 			payUrl: "",
+			pageNum: 1,
+			total: 0,
+			payType: "微信",
 		};
+		this.columns = [
+			{
+				title: "会员类型",
+				dataIndex: "subject",
+				key: "subject",
+			},
+			{
+				title: "订单编号",
+				dataIndex: "out_trade_no",
+				key: "out_trade_no",
+			},
+			{
+				title: "购买时间",
+				dataIndex: "purchase_date",
+				key: "purchase_date",
+			},
+			{
+				title: "到期时间",
+				dataIndex: "expires_date",
+				key: "expires_date",
+			},
+			{
+				title: "金额",
+				dataIndex: "money",
+				key: "money",
+				render: (value) => {
+					return value + "元";
+				},
+			},
+			{
+				title: "状态",
+				dataIndex: "is_right",
+				key: "is_right",
+				render: (value) => {
+					return (
+						<span className={`${!value ? "colorRed" : ""}`}>
+							{value ? "有效" : "已过期"}
+						</span>
+					);
+				},
+			},
+		];
 	}
 	componentDidMount() {
 		this.initData();
 	}
-	initData = () => {
-		const { getList } = this.props;
+	initData = async () => {
+		const { getList, getHostory } = this.props;
+		const { pageNum } = this.state;
+		const { total, page } = await getHostory({ page: pageNum });
+		this.setState({
+			total,
+			page,
+		});
 		getList();
 	};
 	componentWillUnmount() {}
@@ -52,30 +107,47 @@ class Pay extends React.Component {
 		this.setState({
 			onShowPay: false,
 			payItem: {},
+			payUrl: "",
 		});
 	};
 	onWeiXinPay = async () => {
 		const { getWeiXinPay } = this.props;
 		const { payItem } = this.state;
-		const data = await getWeiXinPay({
-			product_id: payItem.id,
+		const code_url = await getWeiXinPay({
+			product_id: payItem.product_id,
+		});
+		this.setState({
+			payType: "微信",
 		});
 		// 判断 手机还是 pc
 		if (this.isUserAgent()) {
 			// 直接 打开
+			window.open(code_url);
 		} else {
 			// 生成二维码
 			this.setState({
-				payUrl: "weixin://wxpay/bizpayurl?pr=mWFE7NVzz",
+				onShowPay: true,
+				payUrl: code_url,
 			});
 		}
 	};
 	onZhiFuBaoPay = async () => {
 		const { getZhiFuBaoPay } = this.props;
 		const { payItem } = this.state;
-		const data = await getZhiFuBaoPay({
-			product_id: payItem.id,
+		const code_url = await getZhiFuBaoPay({
+			product_id: payItem.product_id,
 		});
+		this.setState({
+			payType: "支付宝",
+		});
+		window.open(code_url);
+	};
+	onPageChange = async (page) => {
+		const { getHostory } = this.props;
+		await this.setState({
+			pageNum: page,
+		});
+		getHostory({ page });
 	};
 	// 判断当前平台是移动端还是pc端
 	isUserAgent = () => {
@@ -84,8 +156,17 @@ class Pay extends React.Component {
 		);
 	};
 	render() {
-		const { activeIndex, onShowPay, payUrl } = this.state;
-		const { userInfo, carList } = this.props;
+		const {
+			activeIndex,
+			onShowPay,
+			payUrl,
+			pageNum,
+			total,
+			payType,
+		} = this.state;
+		const { userInfo, carList, dataSource } = this.props;
+		const storeUserInfo = JSON.parse(localStorage.getItem("userInfo"));
+		const newUserInfo = Object.assign({}, userInfo, storeUserInfo);
 		return (
 			<div className="pay">
 				<div className="pay-header">
@@ -98,10 +179,14 @@ class Pay extends React.Component {
 					/>
 					<div className="pay-user-info">
 						<div>
-							<span>{userInfo.userName}，欢迎进入</span>
-							<span className="iconfont icon-huangguan" />
+							<span>{newUserInfo.name}，欢迎进入</span>
+							{newUserInfo.expires_date && (
+								<span className="iconfont icon-huangguan" />
+							)}
 						</div>
-						<div>您的会员截止日期为：{userInfo.timer}</div>
+						{newUserInfo.expires_date && (
+							<div>您的会员截止日期为：{newUserInfo.timer}</div>
+						)}
 					</div>
 				</div>
 				<div className="pay-body">
@@ -132,7 +217,7 @@ class Pay extends React.Component {
 											元
 										</div>
 									)}
-									<div className="pay-item-title">{`连续包${str}(${item.name})`}</div>
+									<div className="pay-item-title">{`包${str}(${item.name})`}</div>
 									<div className="pay-item-amount">
 										<span>¥</span>
 										<Statistic
@@ -142,6 +227,9 @@ class Pay extends React.Component {
 											value={item.discount_monty || item.money}
 										/>
 										<span>元</span>
+										{item.discount_monty && (
+											<div className="pay-money-throw">原价{item.money}</div>
+										)}
 										<div className="pay-item-amount-tip">
 											{`次${str}续费`}
 											{item.discount_monty || item.money}元
@@ -159,13 +247,31 @@ class Pay extends React.Component {
 							);
 						})}
 					</div>
+					{dataSource.length ? (
+						<div>
+							<h2>购买记录</h2>
+							<Table
+								dataSource={dataSource}
+								columns={this.columns}
+								className="pay-table-list"
+								rowKey={(record, index) => `table_${index}`}
+								pagination={{
+									current: pageNum,
+									total,
+									showTotal: (totalNum) => <span>共{totalNum}条</span>,
+									onChange: this.onPageChange,
+								}}
+							/>
+						</div>
+					) : null}
 				</div>
+
 				{onShowPay && (
 					<div className="payModal" onClick={this.onCancel}>
 						{payUrl ? (
 							<div className="pay-result">
 								<div>
-									<h2>请打开微信扫一扫</h2>
+									<h2>请打开{payType}扫一扫</h2>
 									<QRCode
 										className="pay-er"
 										value={payUrl} //value参数为生成二维码的链接
@@ -200,12 +306,14 @@ const mapDispatch = (dispatch) => {
 		getList: dispatch.my.getList,
 		getWeiXinPay: dispatch.my.getWeiXinPay,
 		getZhiFuBaoPay: dispatch.my.getZhiFuBaoPay,
+		getHostory: dispatch.my.getHostory,
 	};
 };
 const mapState = (state) => {
 	return {
 		userInfo: state.my.userInfo,
 		carList: state.my.carList,
+		dataSource: state.my.dataSource,
 	};
 };
 export default connect(mapState, mapDispatch)(Pay);

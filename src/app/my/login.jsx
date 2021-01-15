@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, Popover, Input, Button, Statistic } from "antd";
+import { Image, Popover, Input, Button, Statistic, message } from "antd";
 import { connect } from "react-redux";
 import "./index.less";
+import Axios from "axios";
 const { Countdown } = Statistic;
 class Login extends React.Component {
 	static propTypes = {
@@ -37,7 +38,7 @@ class Login extends React.Component {
 			ver_number: passwordValue,
 		});
 	};
-	countDown = async () => {
+	countDown = () => {
 		const { count } = this.state;
 		if (count === 1) {
 			this.setState({
@@ -45,7 +46,6 @@ class Login extends React.Component {
 				liked: true,
 			});
 		} else {
-			const data = await this.props.getLoginSms({ phone: 15171658986 });
 			this.setState({
 				count: count - 1,
 				liked: false,
@@ -54,12 +54,19 @@ class Login extends React.Component {
 		}
 	};
 
-	handleClick = () => {
-		const { liked } = this.state;
+	handleClick = async () => {
+		const { liked, phoneValue } = this.state;
 		if (!liked) {
 			return;
 		}
-		this.countDown();
+		if (/^1[3456789]\d{9}$/.test(phoneValue)) {
+			this.countDown();
+			const data = await this.props.getLoginSms({
+				phone: phoneValue,
+			});
+		} else {
+			message.error("请输入正确的手机号");
+		}
 	};
 	componentWillUnmount() {
 		this.timer && clearTimeout(this.timer);
@@ -98,7 +105,7 @@ class Login extends React.Component {
 							}
 							suffix={
 								<Button
-									disabled={!liked}
+									disabled={!liked || !phoneValue}
 									size="small"
 									style={{
 										fontSize: "0.2rem",

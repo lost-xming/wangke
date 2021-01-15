@@ -50,13 +50,9 @@ class AXIOS {
 			...opt,
 		};
 		return new Promise((resolve, reject) => {
-			const newUrl =
-				url.indexOf("http:") > -1
-					? url
-					: `${this.genDomainForEnv(option.urlType)}${url}`;
 			return this.HTTP(
 				AXIOS.METHOD.GET,
-				newUrl,
+				url,
 				data,
 				"json",
 				option.key,
@@ -83,13 +79,9 @@ class AXIOS {
 			...opt,
 		};
 		return new Promise((resolve, reject) => {
-			const newUrl =
-				url.indexOf("http:") > -1
-					? url
-					: `${this.genDomainForEnv(option.urlType)}${url}`;
 			return this.HTTP(
 				AXIOS.METHOD.POST,
-				newUrl,
+				url,
 				data,
 				option.type,
 				option.key,
@@ -112,15 +104,21 @@ class AXIOS {
 	HTTP = (method, url, data, type = "json", ...others) => {
 		if (!url) return null;
 		const { key, mask, withCredentials } = others;
+		const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+		const ajaxData = Object.assign({}, data, {
+			token: userInfo.token,
+			test: true,
+		});
 		const send = this.axios.request;
 		const config = this.getHttpConfig(
 			this.genCancelConf(key),
 			withCredentials,
 			method,
 			url,
-			data,
+			ajaxData,
 			type
 		);
+
 		return new Promise((resolve, reject) => {
 			send({ ...config, mask })
 				.then((resp) => {
@@ -128,27 +126,25 @@ class AXIOS {
 					// 删除已经完成的请求key
 					this.delCancelHandler(config.key);
 					// 返回 message
-					const resMsg = respData.message || respData.msg;
+					const resMsg = respData.statusInfo && respData.statusInfo.message;
 					// 返回 code
-					const { code } = respData;
+					const { status } = respData;
 					let msg = ""; // 默认错误提示
-					switch (code) {
-						case "0":
-						case 0:
+					switch (status) {
+						case "1200":
+						case 1200:
 							resolve(respData);
 							break;
 						default:
-							switch (code) {
-								case -1:
+							switch (status) {
+								case 5101:
 									msg = "账号未登录";
-									// 清除 storage
-									localStorage.setItem("userInfo", JSON.stringify({}));
-									window.location.href = "/login";
+									localStorage.setItem("userInfo", JSON.stringify("{}"));
 									break;
 							}
 							reject({
 								error: -100,
-								code: respData.code,
+								code: respData.status,
 								reason: resMsg || msg,
 								data: respData.data,
 							});
@@ -313,9 +309,11 @@ class AXIOS {
 				default:
 					break;
 			}
+			const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 			config.headers = {
 				"Content-Type": contentType,
 				phone_system_type: "applets",
+				token: userInfo.token || undefined,
 			};
 			config.data = cfgData;
 		}

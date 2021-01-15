@@ -40,16 +40,17 @@ class My extends React.Component {
 	render() {
 		const { phoneValue, passwordValue } = this.state;
 		const { userInfo } = this.props;
+		const storeUserInfo = JSON.parse(localStorage.getItem("userInfo"));
+		const newUserInfo = Object.assign({}, userInfo, storeUserInfo);
 		return (
 			<div className="my-content">
 				<Image
 					height={"100%"}
-					// height={"calc(100vh - 3.2rem)"}
 					className="my-content-bg"
 					preview={false}
 					src={require("./../../images/mybg_02.png").default}
 				/>
-				{JSON.stringify(userInfo) === "{}" ? <LoginCom /> : <Pay />}
+				{JSON.stringify(newUserInfo) === "{}" ? <LoginCom /> : <Pay />}
 				<FixedApp />
 			</div>
 		);
