@@ -15,7 +15,7 @@ const CONFIG = {
 		apiUrlFilter: "",
 	},
 	production: {
-		apiUrl: "http://192.168.3.128:5002",
+		apiUrl: "http://api.smallschoolbag.com",
 		apiUrlFilter: "",
 	},
 };
