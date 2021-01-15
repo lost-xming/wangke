@@ -123,7 +123,7 @@ class Pay extends React.Component {
 		// 判断 手机还是 pc
 		if (this.isUserAgent()) {
 			// 直接 打开
-			window.open(code_url);
+			window.location.href = code_url;
 		} else {
 			// 生成二维码
 			this.setState({
