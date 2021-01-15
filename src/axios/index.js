@@ -33,11 +33,11 @@ class AXIOS {
 	genDomainForEnv = (type) => {
 		const env = this.getEnv();
 		const typeJson = {
-			// default:
-			// 	env === "production"
-			// 		? `${CONFIOG[env].apiUrl}${CONFIOG[env].apiUrlFilter}`
-			// 		: `${CONFIOG[env].apiUrlFilter}`,
-			default: `${CONFIOG[env].apiUrl}${CONFIOG[env].apiUrlFilter}`,
+			default:
+				env === "production"
+					? `${CONFIOG[env].apiUrl}${CONFIOG[env].apiUrlFilter}`
+					: `${CONFIOG[env].apiUrlFilter}`,
+			// default: `${CONFIOG[env].apiUrl}${CONFIOG[env].apiUrlFilter}`,
 			auth: `${CONFIOG[env].authUrl}${CONFIOG[env].authUrlFilter}`,
 			im: `${CONFIOG[env].imUrl}`,
 		};
