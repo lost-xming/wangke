@@ -87,7 +87,7 @@ class Pay extends React.Component {
 		const { total, page } = await getHostory({ page: pageNum });
 		this.setState({
 			total,
-			page,
+			pageNum: page,
 		});
 		getList();
 	};
@@ -109,6 +109,7 @@ class Pay extends React.Component {
 			payItem: {},
 			payUrl: "",
 		});
+		this.initData();
 	};
 	onWeiXinPay = async () => {
 		const { getWeiXinPay } = this.props;
@@ -247,7 +248,7 @@ class Pay extends React.Component {
 							);
 						})}
 					</div>
-					{dataSource.length ? (
+					{!dataSource.length && Number(pageNum) === 1 ? null : (
 						<div>
 							<h2>购买记录</h2>
 							<Table
@@ -263,7 +264,7 @@ class Pay extends React.Component {
 								}}
 							/>
 						</div>
-					) : null}
+					)}
 				</div>
 
 				{onShowPay && (
