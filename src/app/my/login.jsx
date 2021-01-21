@@ -85,51 +85,53 @@ class Login extends React.Component {
 						/>
 					</div>
 					<div className="my-right">
-						<h1>Hello,欢迎登录/注册</h1>
-						<div className="my-right-wel">Welcome to login/sign up</div>
-						<Input
-							bordered={false}
-							prefix={
-								<div className="iconfont icon-user site-form-item-icon" />
-							}
-							value={phoneValue}
-							onChange={(e) => this.onInputStateChange(e, "phoneValue")}
-							onPressEnter={this.onLogin}
-							className="my-right-userPhone"
-							placeholder="请输入手机号"
-						/>
-						<Input
-							bordered={false}
-							prefix={
-								<div className="iconfont icon-mima site-form-item-icon" />
-							}
-							suffix={
-								<Button
-									disabled={!liked || !phoneValue}
-									size="small"
-									style={{
-										fontSize: "0.2rem",
-										border: "none",
-										backgroundColor: "transparent",
-									}}
-									onClick={this.handleClick}
-								>
-									{liked ? "获取验证码" : `${count} 秒后重发`}
-								</Button>
-							}
-							value={passwordValue}
-							onChange={(e) => this.onInputStateChange(e, "passwordValue")}
-							onPressEnter={this.onLogin}
-							className="my-right-userPhone"
-							placeholder="请输入短信验证码"
-						/>
-						<div
-							className={`my-right-btn ${
-								phoneValue || passwordValue ? "my-right-btn-color" : ""
-							}`}
-							onClick={this.onLogin}
-						>
-							登 录
+						<div className="my-right-box">
+							<h1>Hello,欢迎登录/注册</h1>
+							<div className="my-right-wel">Welcome to login/sign up</div>
+							<Input
+								bordered={false}
+								prefix={
+									<div className="iconfont icon-user site-form-item-icon" />
+								}
+								value={phoneValue}
+								onChange={(e) => this.onInputStateChange(e, "phoneValue")}
+								onPressEnter={this.onLogin}
+								className="my-right-userPhone"
+								placeholder="请输入手机号"
+							/>
+							<Input
+								bordered={false}
+								prefix={
+									<div className="iconfont icon-mima site-form-item-icon" />
+								}
+								suffix={
+									<Button
+										disabled={!liked || !phoneValue}
+										size="small"
+										style={{
+											fontSize: "0.2rem",
+											border: "none",
+											backgroundColor: "transparent",
+										}}
+										onClick={this.handleClick}
+									>
+										{liked ? "获取验证码" : `${count} 秒后重发`}
+									</Button>
+								}
+								value={passwordValue}
+								onChange={(e) => this.onInputStateChange(e, "passwordValue")}
+								onPressEnter={this.onLogin}
+								className="my-right-userPhone"
+								placeholder="请输入短信验证码"
+							/>
+							<div
+								className={`my-right-btn ${
+									phoneValue || passwordValue ? "my-right-btn-color" : ""
+								}`}
+								onClick={this.onLogin}
+							>
+								登 录
+							</div>
 						</div>
 					</div>
 				</div>
